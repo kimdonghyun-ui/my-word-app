@@ -6,8 +6,8 @@ import { useAuthStore } from '@/store/authStore';
 import DarkModeToggle from '../DarkModeToggle';
 import { usePathname } from 'next/navigation';
 import { getTitleFromPath } from '@/utils/utils';
-
-import { LogOut, User } from 'lucide-react';
+import LevelSelector from '../LevelSelector';
+import { LogOut, Star, User, BookCheck, BookOpen } from 'lucide-react';
 import { IconBtn } from '../ui/IconBtn';
 
 
@@ -21,6 +21,7 @@ export default function Header({ showBackButton = false }: HeaderProps) {
   const path = usePathname();
   // 로그인 페이지에서는 헤더를 표시하지 않음
   const showHeader = path !== '/login';
+  const showLevel = path !== '/register';
 
   const title = getTitleFromPath(path);
   
@@ -57,12 +58,22 @@ export default function Header({ showBackButton = false }: HeaderProps) {
           <DarkModeToggle />
           {accessToken && (
             <>
+              <IconBtn onClick={() => router.push('/')} icon={<BookOpen />} title="오늘의단어" />
+              <IconBtn onClick={() => router.push('/flashcard')} icon={<BookCheck />} title="깜빡이학습" />
+              <IconBtn onClick={() => router.push('/favorites')} icon={<Star />} title="즐겨찾기" />
               <IconBtn onClick={() => router.push('/profile')} icon={<User />} title="프로필" />
               <IconBtn onClick={handleLogout} icon={<LogOut />} title="로그아웃" />
             </>
           )}
         </div>
       </div>
+      {
+        showLevel && (
+          <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+          {showLevel && <LevelSelector />}
+        </div>
+        )
+      }
     </header>
     )
   );

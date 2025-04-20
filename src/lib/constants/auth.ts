@@ -4,9 +4,8 @@
 export const protectedRoutes = [
     '/', 
     '/profile',
-    // '/dashboard',
-    // '/statistics',
-    // '/transactions'
+    '/flashcard',
+    '/favorites'
 ];
 
 // 인증된 사용자가 접근하면 리다이렉션할 경로
