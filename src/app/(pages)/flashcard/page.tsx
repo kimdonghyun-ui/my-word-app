@@ -66,7 +66,7 @@ export default function FlashcardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-gray-900 dark:to-gray-800 p-6">
+    <div className="h-full pt-32 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-xl mx-auto flex flex-col gap-4">
         {/* 상단 컨트롤 바 */}
         <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300">

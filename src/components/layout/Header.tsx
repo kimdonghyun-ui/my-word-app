@@ -20,8 +20,10 @@ interface HeaderProps {
 export default function Header({ showBackButton = false }: HeaderProps) {
   const path = usePathname();
   // 로그인 페이지에서는 헤더를 표시하지 않음
-  const showHeader = path !== '/login';
-  const showLevel = path !== '/register';
+  // const showHeader = path !== '/login'; 레이아웃 파일로 헤더 노출 구분한게 아니라면 여기다 경로 추가해서 헤더 노출 구분
+  const showHeader = true;
+  const showLevel = path !== '/register' && path !== '/profile';
+
 
   const title = getTitleFromPath(path);
   

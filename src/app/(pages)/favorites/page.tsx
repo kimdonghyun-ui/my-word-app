@@ -28,7 +28,7 @@ export default function FavoritesPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+    <div className="h-full pt-32 bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">⭐ 즐겨찾기 단어</h1>
         <ul className="space-y-4">
