@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
-import { useAuth } from '@/hooks/useAuth';
+
 import { handleFileUpload } from "@/utils/fileUpload";
 
 export default function RegisterForm() {
@@ -13,9 +13,9 @@ export default function RegisterForm() {
     password: '', //비밀번호
     passwordConfirm: '', //비밀번호 확인
   });
-  const { isLoading } = useAuthStore();
+  const { isLoading, handleRegister } = useAuthStore();
   const [error, setError] = useState<string | null>(null);
-  const { handleRegister } = useAuth();
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { performLogout } from '@/lib/auth';
 import { useAuthStore } from '@/store/authStore';
 import DarkModeToggle from '../DarkModeToggle';
 import { usePathname } from 'next/navigation';
@@ -28,7 +27,8 @@ export default function Header({ showBackButton = false }: HeaderProps) {
 
   const router = useRouter();
   const accessToken = useAuthStore((state) => state.accessToken);
-
+  const { performLogout } = useAuthStore();
+  
   const handleLogout = async () => {
     await performLogout();
     // router.push('/login');

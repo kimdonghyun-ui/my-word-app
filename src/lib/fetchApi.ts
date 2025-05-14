@@ -9,8 +9,9 @@
 
 import { useAuthStore } from "@/store/authStore"; //zustand 
 import { ApiError, handleResponse } from "@/utils/utils"; //
-import { refreshApi } from "./api"; //
-import { performLogout, updateAccessToken } from "@/lib/auth"; //
+
+
+import { RefreshResponse } from "@/types/auth";
 
 // 통합된 API 요청 함수
 export async function fetchApi<T>(
@@ -19,7 +20,6 @@ export async function fetchApi<T>(
     auth: boolean = true, // 인증 여부
     retry: boolean = true, //토큰 만료시 무한 반복 방지 용도
 ): Promise<T> {
-
     // accessToken 불러오기
 	const accessToken = auth ? useAuthStore.getState().accessToken : null;
 	
@@ -50,10 +50,37 @@ export async function fetchApi<T>(
 
         } catch (error) {
             console.error('refreshApi 에러 발생:', error);
-            await performLogout(); // 로그아웃 처리 기능 모음(
+            useAuthStore.getState().performLogout(); // 로그아웃 처리 기능 모음(
             throw new ApiError(401, "Session expired");
         }
     }
 
     return handleResponse<T>(response);
 }
+
+
+
+
+//리플래쉬 = httponly - cookie 속의 refreshToken 을 사용하여 accessToken 을 재발급하는 함수
+export async function refreshApi(): Promise<RefreshResponse> {
+    return fetchApi<RefreshResponse>('/token/refresh', {
+      method: 'POST',
+      credentials: 'include', //httpOnly 쿠키 를 제어하려면 필요
+    }, false);
+}
+
+
+// 억세스토큰을 새로 받은경우 쿠키와 로컬스토리지에 저장
+export async function updateAccessToken(jwt: string) {
+    await fetch("/api/set-cookie", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            name: "accessToken",
+            value: jwt,
+            action: "set",
+        }),
+    });
+    useAuthStore.setState({ accessToken: jwt });
+  }

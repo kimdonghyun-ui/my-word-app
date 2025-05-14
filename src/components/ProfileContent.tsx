@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { handleFileUpload } from "@/utils/fileUpload";
 import ProfileImage from "@/components/ProfileImage";
-import { useAuth } from '@/hooks/useAuth';
+
 
 export default function ProfileContent() {
-  const { user } = useAuthStore();
+  const { user, handleProfileUpdate } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({
     username: user?.username || '',
@@ -17,8 +17,6 @@ export default function ProfileContent() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const { handleProfileUpdate } = useAuth();
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -38,7 +36,7 @@ export default function ProfileContent() {
 
     try {
       setIsEditing(false);
-      await handleProfileUpdate(`${user?.id}`, editedUser);
+      await handleProfileUpdate(editedUser);
     } catch (err) {
       setError(err instanceof Error ? err.message : '프로필 수정에 실패했습니다.');
     } finally {

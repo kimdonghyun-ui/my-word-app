@@ -1,11 +1,12 @@
 'use client';
 
 
-import { performLogout } from "@/lib/auth";
+import { useAuthStore } from "@/store/authStore";
 import { useRouter } from 'next/navigation';
 
 export default function HomeContent() {
   const router = useRouter();
+  const { performLogout } = useAuthStore();
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">메인 페이지</h1>

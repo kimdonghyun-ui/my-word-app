@@ -10,6 +10,35 @@ import { twMerge } from 'tailwind-merge'
 // - 상태 관리(X), API 호출(X)
 
 
+
+export const getTitleFromPath = (path: string) => {
+  const map: Record<string, string> = {
+    '/': '메인',
+    '/login': '로그인',
+    '/profile': 'ME',
+    '/register': '회원가입',
+  };
+
+  //  '/transactions/[...slug]': '지출 내역 수정', 이 적용이 되지 않기에 아래처럼 함
+  if (path.startsWith('/transactions/') && path.includes('/edit')) {
+    return '지출수정';
+  }
+
+  return map[path] || '페이지';
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const formatDate = (date: string): string => {
     return new Date(date).toLocaleDateString("ko-KR");
   };
@@ -94,25 +123,6 @@ export const isProtectedRoute = (
   };
 
 
-  export const getTitleFromPath = (path: string) => {
-    const map: Record<string, string> = {
-      '/': '메인',
-      '/login': '로그인',
-      '/profile': 'ME',
-      '/register': '회원가입',
-      '/dashboard': '대시보드',
-      '/statistics': '통계',
-      '/transactions': '지출내역',
-      '/transactions/new': '지출추가',
-    };
-
-    //  '/transactions/[...slug]': '지출 내역 수정', 이 적용이 되지 않기에 아래처럼 함
-    if (path.startsWith('/transactions/') && path.includes('/edit')) {
-      return '지출수정';
-    }
-
-    return map[path] || '페이지';
-  };
 
 
   export function getMoodLabel(emoji: string): string {
