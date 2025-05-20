@@ -52,7 +52,7 @@ export default function ProfileContent() {
     setEditedUser({
       username: user?.username || '',
       email: user?.email || '',
-      password: '',
+      password: user?.email === 'hello@naver.com' ? 'hello123' : '',
       profileImage: user?.profileImage || ''
     });
 
