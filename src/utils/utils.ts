@@ -13,10 +13,12 @@ import { twMerge } from 'tailwind-merge'
 
 export const getTitleFromPath = (path: string) => {
   const map: Record<string, string> = {
-    '/': '메인',
+    '/': '오늘의 단어',
     '/login': '로그인',
     '/profile': 'ME',
     '/register': '회원가입',
+    '/flashcard': '깜빡이학습',
+    '/favorites': '즐겨찾기',
   };
 
   //  '/transactions/[...slug]': '지출 내역 수정', 이 적용이 되지 않기에 아래처럼 함

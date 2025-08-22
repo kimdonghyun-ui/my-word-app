@@ -1,12 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/authStore';
+import { useRouter, usePathname } from 'next/navigation';
 import DarkModeToggle from '../DarkModeToggle';
-import { usePathname } from 'next/navigation';
+import { useAuthStore } from '@/store/authStore';
 import { getTitleFromPath } from '@/utils/utils';
-
-import { LogOut, User, LayoutDashboard } from 'lucide-react';
+import LevelSelector from '../LevelSelector';
+import { LogOut, Star, User, BookCheck, BookOpen } from 'lucide-react';
 import { IconBtn } from '../ui/IconBtn';
 
 
@@ -17,21 +16,18 @@ interface HeaderProps {
 }
 
 export default function Header({ showBackButton = false }: HeaderProps) {
-  const path = usePathname();
-  // 로그인 페이지에서는 헤더를 표시하지 않음
-  // const showHeader = path !== '/login'; 레이아웃 파일로 헤더 노출 구분한게 아니라면 여기다 경로 추가해서 헤더 노출 구분
-  const showHeader = true;
-
-  const title = getTitleFromPath(path);
-  
-
   const router = useRouter();
+  const path = usePathname();
+
   const accessToken = useAuthStore((state) => state.accessToken);
   const { performLogout } = useAuthStore();
+
+  const showHeader = true;
+  const showLevel = path !== '/register' && path !== '/profile';
+  const title = getTitleFromPath(path);
   
   const handleLogout = async () => {
     await performLogout();
-    // router.push('/login');
   };
 
   return (
@@ -58,13 +54,22 @@ export default function Header({ showBackButton = false }: HeaderProps) {
           <DarkModeToggle />
           {accessToken && (
             <>
-              <IconBtn onClick={() => router.push('/')} icon={<LayoutDashboard />} title="홈" />
+              <IconBtn onClick={() => router.push('/')} icon={<BookOpen />} title="오늘의단어" />
+              <IconBtn onClick={() => router.push('/flashcard')} icon={<BookCheck />} title="깜빡이학습" />
+              <IconBtn onClick={() => router.push('/favorites')} icon={<Star />} title="즐겨찾기" />
               <IconBtn onClick={() => router.push('/profile')} icon={<User />} title="프로필" />
               <IconBtn onClick={handleLogout} icon={<LogOut />} title="로그아웃" />
             </>
           )}
         </div>
       </div>
+      {
+        showLevel && (
+          <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+          {showLevel && <LevelSelector />}
+        </div>
+        )
+      }
     </header>
     )
   );
